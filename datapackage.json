@@ -21,7 +21,7 @@
   }],
   "contributor": [],
   "resources": [{
-    "path": "data/data.csv",
+    "path": "data/subsidized-housing_2016.csv",
     "format": "csv",
     "schema": {
       "fields": [{
@@ -39,11 +39,21 @@
         }, {
           "name": "Measure Type",
           "type": "string",
-          "dimension": true
+          "dimension": true,
+          "constraints": {
+		        "enum": [
+		          "Number"
+		        ]
+			    }
         }, {
           "name": "Variable",
           "type": "string",
-          "dimension": true
+          "dimension": true,
+          "constraints": {
+		        "enum": [
+		          "Total Assisted Units"
+		        ]
+			    }
         }, {
           "name": "Value",
           "type": "number",
@@ -52,11 +62,11 @@
       }
     }
   ],
-  "last_modified": "08/16/2017",
+  "last_modified": "08/18/2017",
   "ckan_extras": {
     "full_description": {
       "ckan_name": "Full Description",
-      "value": "Subsidized Housing reports the number of housing units receiving Governmental assistance in the form of Section 8, Tenant Rental Assistance, CHFA/USDA Mortgages, or Deed Restrictions.",
+      "value": "Subsidized Housing reports the number of housing units receiving Governmental assistance in the form of Section 8, Tenant Rental Assistance, CHFA/USDA Mortgages, or Deed Restrictions, at the town, county, and state level.",
       "type": "string"
     },
     "suppression": {
@@ -66,27 +76,27 @@
     },
     "technical_notes": {
       "ckan_name": "Technical Notes",
-      "value": "Technical notes for advanced users",
+      "value": "",
       "type": "string"
     },
     "socrata": {
       "ckan_name": "Socrata",
-      "value": "False",,
+      "value": "False",
       "type": "string"
     },
     "socrata_url": {
       "ckan_name": "Socrata Dataset URL",
-      "value": "",,
+      "value": "",
       "type": "string"
     },
     "domain": {
       "ckan_name": "Domain",
-      "value": "Data domain (top level)",
+      "value": "",
       "type": "string"
     },
     "subdomain": {
       "ckan_name": "Subdomain",
-      "value": "Topic within top level domain",
+      "value": "",
       "type": "string"
     },
     "geography": {
@@ -102,7 +112,9 @@
     },
     "years_in_catalog": {
       "ckan_name": "Years in Catalog",
-      "value": [],
+      "value": ["2002", "2003", "2004", "2005", "2006", 
+                "2007", "2008", "2009", "2010", "2011", 
+                "2012", "2013", "2014", "2015", "2016"],
       "type": "array"
     },
     "latest_year": {
@@ -123,11 +135,70 @@
         "Percent": "%"
       }
     },
-    "default": {}
+    "expected_number_of_geographies": {
+		  "ckan_name": "Expected Number of Unique Geographies",
+		  "value": 178,
+		  "type": "string"
+		},     
+    "default": {      
+      "ckan_name": "Default",
+			"value": {
+		 		"Town/County": "Connecticut",
+		 		"Year": "2016",
+		 		"Measure Type": "Number", 
+		 		"Variable": "Total Assisted Units"
+			},
+		  	"type": "object"
+    } 
   },
-  "spot_checks": [],
+  "spot_checks": [
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town/County": "Connecticut",
+        "Year": "2014",
+        "Variable": "Total Assisted Units",
+        "Measure Type": "Number" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 168655
+      } 
+    }, 
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town/County": "Windham County",
+        "Year": "2015",
+        "Variable": "Total Assisted Units",
+        "Measure Type": "Number" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 6761
+      } 
+    }, 
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town/County": "Essex",
+        "Year": "2016",
+        "Variable": "Total Assisted Units",
+        "Measure Type": "Number" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 49
+      } 
+    }  
+  ],
   "dimension_groups": [
-    {"Measure Type": []},
-    {"Variable": []}
+    {
+      "Measure Type": ["Number"],
+      "Variable": ["Total Assisted Units"]
+    }
   ]
 }
