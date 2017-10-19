@@ -1,8 +1,8 @@
 {
-  "name": "subsidized-housing",
+  "name": "subsidized-housing-by-type",
   "datapackage_version": "1.0-beta.18",
-  "title": "Subsidized Housing",
-  "description": "Subsidized Housing reports the number of housing units receiving assistance.",
+  "title": "Subsidized Housing by Type",
+  "description": "Subsidized Housing by Type reports the number of housing units receiving assistance by Type.",
   "version": "1.0",
   "licenses": [{
     "url": "http://opendatacommons.org/licenses/pddl/",
@@ -73,7 +73,7 @@
   "ckan_extras": {
     "full_description": {
       "ckan_name": "Full Description",
-      "value": "Subsidized Housing reports the number of total housing units per the Decennial Census, the total number of housing units receiving Governmental assistance in the form of Section 8, Tenant Rental Assistance, CHFA/USDA Mortgages, or Deed Restrictions, as well as the total percent of housing units that are affordable, at the town, county, and state level.",
+      "value": "Subsidized Housing by Type reports the number of total housing units per the Decennial Census, the total number of housing units receiving Governmental assistance in the form of Section 8, Tenant Rental Assistance, CHFA/USDA Mortgages, or Deed Restrictions, as well as the total percent of housing units that are affordable, at the town, county, and state level.",
       "type": "string"
     },
     "suppression": {
