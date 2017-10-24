@@ -57,8 +57,7 @@
 		          "CHFA/USDA Mortgages",
 		          "Deed Restrictions",
 		          "Tenant Rental Assistance", 
-		          "Total Assisted",
-		          "Percent Affordable"
+		          "Total Assisted"
 		        ]
 			    }
         }, {
@@ -69,11 +68,11 @@
       }
     }
   ],
-  "last_modified": "08/18/2017",
+  "last_modified": "10/24/2017",
   "ckan_extras": {
     "full_description": {
       "ckan_name": "Full Description",
-      "value": "Subsidized Housing by Type reports the number of total housing units per the Decennial Census, the total number of housing units receiving Governmental assistance in the form of Section 8, Tenant Rental Assistance, CHFA/USDA Mortgages, or Deed Restrictions, as well as the total percent of housing units that are affordable, at the town, county, and state level.",
+      "value": "Subsidized Housing by Type reports the total number of housing units per the Decennial Census, the total number of housing units receiving Governmental assistance, as well as the total number of each type of assistance in the form of Section 8, Tenant Rental Assistance, CHFA/USDA Mortgages, or Deed Restrictions. Housing units receiving Governmental assistance are considered affordable. The percent of assisted households is the number of housing units recieving assistance as a percentage of total housing units, at the town, county, and state level.",
       "type": "string"
     },
     "suppression": {
@@ -152,8 +151,8 @@
 			"value": {
 		 		"Town/County": "Connecticut",
 		 		"Year": "2016",
-		 		"Measure Type": "Number", 
-		 		"Variable": "Percent Affordable"
+		 		"Measure Type": "Number",
+		 		"Variable": ["Total Housing Units", "Government Assisted", "CHFA/USDA Mortgages", "Deed Restrictions", "Tenant Rental Assistance", "Total Assisted"]
 			},
 		  	"type": "object"
     } 
@@ -178,7 +177,7 @@
       "filter": {
         "Town/County": "Windham County",
         "Year": "2015",
-        "Variable": "Percent Affordable",
+        "Variable": "Total Assisted",
         "Measure Type": "Percent" 
       },
       "expected": {
@@ -218,14 +217,18 @@
   ],
   "dimension_groups": [
     {
+      "Measure Type": ["Number"],
       "Variable": [
         "Total Housing Units",
 		    "Government Assisted",
 		    "CHFA/USDA Mortgages",
 		    "Deed Restrictions",
 		    "Tenant Rental Assistance", 
-		    "Total Assisted",
-		    "Percent Affordable"]
+		    "Total Assisted"]
+    }, 
+    {
+      "Measure Type": ["Percent"],
+      "Variable": ["Total Assisted"]
     }
   ]
 }

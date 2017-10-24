@@ -44,10 +44,10 @@ for (i in 1:length(raw_data)) {
   names(current_file)[names(current_file) == chfa] <- "CHFA/USDA Mortgages"
   names(current_file)[names(current_file) == deed] <- "Deed Restrictions"
   names(current_file)[names(current_file) == rent] <- "Tenant Rental Assistance"
-  names(current_file)[names(current_file) == percent] <- "Percent Affordable"
+  names(current_file)[names(current_file) == percent] <- "Total Assisted Percent"
   current_file <- current_file %>% select(Town, Year, `Total Housing Units`, `Government Assisted`, `CHFA/USDA Mortgages`, 
                                           `Deed Restrictions`, `Tenant Rental Assistance`, 
-                                          `Total Assisted`, `Percent Affordable`)
+                                          `Total Assisted`, `Total Assisted Percent`)
   sub_housing <- rbind(sub_housing, current_file)
 }
 
@@ -70,7 +70,7 @@ sub_housing_fips <- sub_housing_fips[sub_housing_fips$Town != "Connecticut",]
 county <- sub_housing_fips
 county$FIPS <- substr(county$FIPS, 0, 5)
 county$Town <- NULL
-county$`Percent Affordable` <- NA
+county$`Total Assisted Percent` <- NA
 
 # Aggregate sum of values by county fips codes and year
 county_agg <- unique(county %>% 
@@ -81,7 +81,7 @@ county_agg <- unique(county %>%
          `Deed Restrictions` = sum(`Deed Restrictions`, na.rm=T),
          `Tenant Rental Assistance` = sum(`Tenant Rental Assistance`, na.rm=T),
          `Total Assisted` = sum(`Total Assisted`, na.rm=T), 
-         `Percent Affordable` = (`Total Assisted` / `Total Housing Units`)))
+         `Total Assisted Percent` = (`Total Assisted` / `Total Housing Units`)))
 
 #Merge in county FIPS
 county_fips_dp_URL <- 'https://raw.githubusercontent.com/CT-Data-Collaborative/ct-county-list/master/datapackage.json'
@@ -99,7 +99,7 @@ county_with_fips <- county_with_fips[county_with_fips$Town != "Connecticut",]
 state <- sub_housing_fips
 state$Town <- NULL
 state$FIPS <- NULL
-state$`Percent Affordable` <- NA
+state$`Total Assisted Percent` <- NA
 
 state_agg <- unique(state %>% 
   group_by(Year) %>% 
@@ -109,7 +109,7 @@ state_agg <- unique(state %>%
          `Deed Restrictions` = sum(`Deed Restrictions`, na.rm=T),
          `Tenant Rental Assistance` = sum(`Tenant Rental Assistance`, na.rm=T),
          `Total Assisted` = sum(`Total Assisted`, na.rm=T), 
-         `Percent Affordable` = (`Total Assisted` / `Total Housing Units`)))  
+         `Total Assisted Percent` = (`Total Assisted` / `Total Housing Units`)))  
 
 state_agg$Town <- "Connecticut"
 state_agg$FIPS <- "09"
@@ -120,7 +120,7 @@ state_agg <- as.data.frame(state_agg)
 sub_housing_fips <- rbind(sub_housing_fips, county_with_fips, state_agg)
 
 #round percent column
-sub_housing_fips$`Percent Affordable` <- round((as.numeric(sub_housing_fips$`Percent Affordable`))*100, 2)
+sub_housing_fips$`Total Assisted Percent` <- round((as.numeric(sub_housing_fips$`Total Assisted Percent`))*100, 2)
 
 #Convert to long format
 cols_to_stack <- c("Total Housing Units", 
@@ -129,7 +129,7 @@ cols_to_stack <- c("Total Housing Units",
                    "Deed Restrictions",
                    "Tenant Rental Assistance", 
                    "Total Assisted", 
-                   "Percent Affordable")
+                   "Total Assisted Percent")
 
 long_row_count = nrow(sub_housing_fips) * length(cols_to_stack)
 
@@ -150,11 +150,17 @@ sub_housing_fips_long$Value <- as.numeric(sub_housing_fips_long$Value)
 
 # add columns, rename Town/County
 sub_housing_fips_long$`Measure Type` <- "Number"
-sub_housing_fips_long$`Measure Type`[which(sub_housing_fips_long$Variable %in% c("Percent Affordable"))] <- "Percent" 
+sub_housing_fips_long$`Measure Type`[which(sub_housing_fips_long$Variable %in% c("Total Assisted Percent"))] <- "Percent" 
+sub_housing_fips_long$Variable <- gsub(" Percent", "", sub_housing_fips_long$Variable)
 names(sub_housing_fips_long)[names(sub_housing_fips_long) == "Town"] <- "Town/County"
 
 #Assign factors for sorting
-sub_housing_fips_long$Variable <- factor(sub_housing_fips_long$Variable, levels = cols_to_stack)
+sub_housing_fips_long$Variable <- factor(sub_housing_fips_long$Variable, levels =  c("Total Housing Units", 
+                   "Government Assisted", 
+                   "CHFA/USDA Mortgages", 
+                   "Deed Restrictions",
+                   "Tenant Rental Assistance", 
+                   "Total Assisted", "Total Assisted"))
 
 
 #Order and sort columns
