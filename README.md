@@ -1,6 +1,6 @@
-Subsidized Housing
+Subsidized Housing by Type
 
-Subsidized Housing reports the number of housing units receiving assistance.
+Subsidized Housing by Type reports the number of housing units receiving assistance by type.
 
 Data Source: <http://www.ct.gov/doh/cwp/view.asp?a=4513&q=530486>
 
