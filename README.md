@@ -1,8 +1,16 @@
-Subsidized Housing by Type
+Subsidized Housing
 
-Subsidized Housing by Type reports the number of housing units receiving assistance by type.
+Subsidized Housing reports the number of housing units receiving assistance.
 
 Data Source: <http://www.ct.gov/doh/cwp/view.asp?a=4513&q=530486>
+
+## Tabula Instructions (Linux)
+
+Full Instructions: <https://github.com/tabulapdf/tabula>
+
+1. Download tabula-jar.zip <http://tabula.technology/>
+2. cd to tabula directory, run: ```java -Dfile.encoding=utf-8 -Xms256M -Xmx1024M -Dwarbler.port=9999 -jar tabula.jar```
+3. Navigate to <http://127.0.0.1:9999/>
 
 ## License MIT
 

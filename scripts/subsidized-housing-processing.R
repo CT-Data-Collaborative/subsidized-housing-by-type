@@ -61,7 +61,7 @@ county_fips_dp <- datapkg_read(path = county_fips_dp_URL)
 county_fips <- (county_fips_dp$data[[1]])
 
 #Assign county name based on FIPS
-county_with_fips <- merge(county, county_fips, by = "FIPS", all = T)
+county_with_fips <- merge(county, county_fips, by = "FIPS", all.y = T)
 
 #Rename county column and remove CT
 names(county_with_fips)[names(county_with_fips) == "County"] <- "Town"
@@ -80,20 +80,32 @@ state$FIPS <- "09"
 #Combine town, county, and state
 sub_housing_fips <- rbind(sub_housing_fips, county_with_fips, state)
 
+#Backfill years, for missing towns
+years <- unique(sub_housing_fips$Year)
+towns <- unique(sub_housing_fips$Town)
+
+backfill <- expand.grid(  
+  'Year' = years,
+  'Town' = towns
+)
+
+sub_housing_merge <- merge(sub_housing_fips, backfill, by = c("Town", "Year"), all.y=T)
+
 # add columns, rename Town/County
-sub_housing_fips$`Measure Type` <- "Number"
-sub_housing_fips$Variable <- "Total Assisted Units"
-names(sub_housing_fips)[names(sub_housing_fips) == "Town"] <- "Town/County"
+sub_housing_merge$`Measure Type` <- "Number"
+sub_housing_merge$Variable <- "Total Assisted Units"
+names(sub_housing_merge)[names(sub_housing_merge) == "Town"] <- "Town/County"
 
 #Order and sort columns
-sub_housing_fips <- sub_housing_fips %>% 
+sub_housing_merge <- sub_housing_merge %>% 
   select(`Town/County`, FIPS, Year, `Measure Type`, Variable, Value) %>% 
   arrange(`Town/County`, Year)
 
 # write to file
 write.table(
-  sub_housing_fips,
-  file.path(getwd(), "data", "subsidized-housing_2016.csv"),
+  sub_housing_merge,
+  file.path(getwd(), "data", "subsidized-housing.csv"),
   sep = ",",
-  row.names = F
+  row.names = F,
+  na = "-6666" #missing towns from backfill
 )

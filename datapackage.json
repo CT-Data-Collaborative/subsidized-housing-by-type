@@ -1,8 +1,8 @@
 {
-  "name": "subsidized-housing-by-type",
+  "name": "subsidized-housing",
   "datapackage_version": "1.0-beta.18",
-  "title": "Subsidized Housing by Type",
-  "description": "Subsidized Housing by Type reports the number of housing units receiving assistance by Type.",
+  "title": "Subsidized Housing",
+  "description": "Subsidized Housing reports the number of housing units receiving assistance.",
   "version": "1.0",
   "licenses": [{
     "url": "http://opendatacommons.org/licenses/pddl/",
@@ -21,58 +21,52 @@
   }],
   "contributor": [],
   "resources": [{
-    "path": "data/subsidized-housing-by-type_2016.csv",
+    "path": "data/subsidized-housing.csv",
     "format": "csv",
     "schema": {
       "fields": [{
-          "name": "Town/County",
-          "type": "string",
-          "dimension": false
-        }, {
-          "name": "FIPS",
-          "type": "string",
-          "dimension": false
-        }, {
-          "name": "Year",
-          "type": "string",
-          "dimension": false
-        }, {
-          "name": "Measure Type",
-          "type": "string",
-          "dimension": true,
-          "constraints": {
-		        "enum": [
-		          "Number", 
-		          "Percent"
-		        ]
-			    }
-        }, {
-          "name": "Variable",
-          "type": "string",
-          "dimension": true,
-          "constraints": {
-		        "enum": [
-		          "Total Housing Units",
-		          "Government Assisted",
-		          "CHFA/USDA Mortgages",
-		          "Deed Restrictions",
-		          "Tenant Rental Assistance", 
-		          "Total Assisted"
-		        ]
-			    }
-        }, {
-          "name": "Value",
-          "type": "number",
-          "dimension": false
-        }]
-      }
+        "name": "Town/County",
+        "type": "string",
+        "dimension": false
+      }, {
+        "name": "FIPS",
+        "type": "string",
+        "dimension": false
+      }, {
+        "name": "Year",
+        "type": "string",
+        "dimension": false
+      }, {
+        "name": "Measure Type",
+        "type": "string",
+        "dimension": true,
+        "constraints": {
+          "enum": [
+            "Number"
+            ]
+        }
+      }, {
+        "name": "Variable",
+        "type": "string",
+        "dimension": true,
+        "constraints": {
+          "enum": [
+            "Total Assisted Units"
+            ]
+        }
+      }, {
+        "name": "Value",
+        "type": "number",
+        "dimension": false
+      }]
     }
+  }
   ],
-  "last_modified": "10/24/2017",
+  "last_modified": "03/18/2018",
   "ckan_extras": {
     "full_description": {
       "ckan_name": "Full Description",
-      "value": "Subsidized Housing by Type reports the total number of housing units per the Decennial Census, the total number of housing units receiving Governmental assistance, as well as the total number of each type of assistance in the form of Section 8, Tenant Rental Assistance, CHFA/USDA Mortgages, or Deed Restrictions. Housing units receiving Governmental assistance are considered affordable. The percent of assisted households is the number of housing units recieving assistance as a percentage of total housing units, at the town, county, and state level.",
+      "value": "Subsidized Housing reports the number of housing units receiving Governmental assistance in the form of Section 8, Tenant Rental Assistance, CHFA/USDA Mortgages, or Deed Restrictions, at the town, county, and state level.",
       "type": "string"
     },
     "suppression": {
@@ -82,7 +76,7 @@
     },
     "technical_notes": {
       "ckan_name": "Technical Notes",
-      "value": "The assistance program, 'Tenant Rental Assistance' is only available for years 2011 and later.",
+      "value": "",
       "type": "string"
     },
     "socrata": {
@@ -118,14 +112,13 @@
     },
     "years_in_catalog": {
       "ckan_name": "Years in Catalog",
-      "value": ["2002", "2003", "2004", "2005", "2006", 
-                "2007", "2008", "2009", "2010", "2011", 
-                "2012", "2013", "2014", "2015", "2016"],
+      "value": ["2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", 
+                "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017"],
       "type": "array"
     },
     "latest_year": {
       "ckan_name": "Latest Year Available",
-      "value": "2016",
+      "value": "2017",
       "type": "string"
     },
     "disabled_views": {
@@ -142,19 +135,19 @@
       }
     },
     "expected_number_of_geographies": {
-		  "ckan_name": "Expected Number of Unique Geographies",
-		  "value": 178,
-		  "type": "string"
-		},     
+      "ckan_name": "Expected Number of Unique Geographies",
+      "value": 178,
+      "type": "string"
+    },     
     "default": {      
       "ckan_name": "Default",
-			"value": {
-		 		"Town/County": "Connecticut",
-		 		"Year": "2016",
-		 		"Measure Type": "Number",
-		 		"Variable": ["Total Housing Units", "Government Assisted", "CHFA/USDA Mortgages", "Deed Restrictions", "Tenant Rental Assistance", "Total Assisted"]
-			},
-		  	"type": "object"
+      "value": {
+        "Town/County": "Connecticut",
+        "Year": "2017",
+        "Measure Type": "Number", 
+        "Variable": "Total Assisted Units"
+      },
+      "type": "object"
     } 
   },
   "spot_checks": [
@@ -163,7 +156,7 @@
       "filter": {
         "Town/County": "Connecticut",
         "Year": "2014",
-        "Variable": "Total Assisted",
+        "Variable": "Total Assisted Units",
         "Measure Type": "Number" 
       },
       "expected": {
@@ -177,13 +170,13 @@
       "filter": {
         "Town/County": "Windham County",
         "Year": "2015",
-        "Variable": "Total Assisted",
-        "Measure Type": "Percent" 
+        "Variable": "Total Assisted Units",
+        "Measure Type": "Number" 
       },
       "expected": {
         "type": "$match",
-        "number type": "float",
-        "value": 13.78
+        "number type": "int",
+        "value": 6761
       } 
     }, 
     {
@@ -191,44 +184,34 @@
       "filter": {
         "Town/County": "Essex",
         "Year": "2016",
-        "Variable": "Deed Restrictions",
+        "Variable": "Total Assisted Units",
         "Measure Type": "Number" 
       },
       "expected": {
         "type": "$match",
         "number type": "int",
-        "value": 0
+        "value": 49
       } 
     }, 
     {
       "type": "$lookup",
       "filter": {
-        "Town/County": "Hartford",
-        "Year": "2003",
-        "Variable": "Tenant Rental Assistance",
+        "Town/County": "Old Lyme",
+        "Year": "2017",
+        "Variable": "Total Assisted Units",
         "Measure Type": "Number" 
       },
       "expected": {
         "type": "$match",
         "number type": "int",
-        "value": 0
+        "value": 79
       } 
-    }  
-  ],
+    } 
+    ],
   "dimension_groups": [
     {
       "Measure Type": ["Number"],
-      "Variable": [
-        "Total Housing Units",
-		    "Government Assisted",
-		    "CHFA/USDA Mortgages",
-		    "Deed Restrictions",
-		    "Tenant Rental Assistance", 
-		    "Total Assisted"]
-    }, 
-    {
-      "Measure Type": ["Percent"],
-      "Variable": ["Total Assisted"]
+      "Variable": ["Total Assisted Units"]
     }
   ]
 }
