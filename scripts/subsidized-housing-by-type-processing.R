@@ -174,7 +174,7 @@ sub_housing_fips_long$Value[is.na(sub_housing_fips_long$Value)] <- 0
 # write to file
 write.table(
   sub_housing_fips_long,
-  file.path(getwd(), "data", "subsidized-housing-by-type_2017.csv"),
+  file.path(getwd(), "data", "subsidized-housing-by-type_2019.csv"),
   sep = ",",
   row.names = F
 )
